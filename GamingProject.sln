@@ -3,11 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29709.97
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GamingProject", "GamingProject\GamingProject.csproj", "{A4D32A5B-A37F-4FFE-A9E5-7FB6D44F5481}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GamingProject", "GamingProject\GamingProject.csproj", "{A4D32A5B-A37F-4FFE-A9E5-7FB6D44F5481}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GamingProject.Data", "GamingProject.Data\GamingProject.Data.csproj", "{F714F638-2AF0-4C4A-9BAE-5378FC9234FE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GamingProject.Data", "GamingProject.Data\GamingProject.Data.csproj", "{F714F638-2AF0-4C4A-9BAE-5378FC9234FE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GamingProject.Models", "GamingProject.Models\GamingProject.Models.csproj", "{83DD7427-24CE-4AB7-ADF2-9474136583D1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GamingProject.Models", "GamingProject.Models\GamingProject.Models.csproj", "{83DD7427-24CE-4AB7-ADF2-9474136583D1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GamingProject.Services", "GamingProject.Services\GamingProject.Services.csproj", "{B2A0E7A5-8870-4013-9E7E-EA1DD20D7CA5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{83DD7427-24CE-4AB7-ADF2-9474136583D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{83DD7427-24CE-4AB7-ADF2-9474136583D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{83DD7427-24CE-4AB7-ADF2-9474136583D1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B2A0E7A5-8870-4013-9E7E-EA1DD20D7CA5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B2A0E7A5-8870-4013-9E7E-EA1DD20D7CA5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B2A0E7A5-8870-4013-9E7E-EA1DD20D7CA5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B2A0E7A5-8870-4013-9E7E-EA1DD20D7CA5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

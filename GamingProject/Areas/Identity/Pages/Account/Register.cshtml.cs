@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using System.Security.Claims;
 
 namespace GamingProject.Areas.Identity.Pages.Account
 {
@@ -47,9 +48,8 @@ namespace GamingProject.Areas.Identity.Pages.Account
         public class InputModel
         {
             [Required]
-            [EmailAddress]
-            [Display(Name = "Email")]
-            public string Email { get; set; }
+            [Display(Name = "Username")]
+            public string Username { get; set; }
 
             [Required]
             [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
@@ -75,31 +75,29 @@ namespace GamingProject.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = new User { UserName = Input.Email, Email = Input.Email };
+                string roleToCreate = string.Empty;
+                if (_signInManager.IsSignedIn(User))
+                {
+                    var userLogged = await _userManager.FindByNameAsync(User.Identity.Name);
+                    var userRoles = await _userManager.GetRolesAsync(userLogged);
+
+                    if (userRoles[0] == "admin")
+                    {
+                        roleToCreate = "moderator";
+                    }
+                    else if (userRoles[0] == "moderator")
+                    {
+                        roleToCreate = "user";
+                    }
+                }
+                var user = new User { UserName = Input.Username, EmailConfirmed = true };
+
                 var result = await _userManager.CreateAsync(user, Input.Password);
-                if (result.Succeeded)
+                var result2 = await _userManager.AddToRoleAsync(user, roleToCreate);
+
+                if (result.Succeeded && result2.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
-                    //var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                    //code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-                    //var callbackUrl = Url.Page(
-                    //    "/Account/ConfirmEmail",
-                    //    pageHandler: null,
-                    //    values: new { area = "Identity", userId = user.Id, code = code },
-                    //    protocol: Request.Scheme);
-
-                    //await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-                    //    $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
-
-                    //if (_userManager.Options.SignIn.RequireConfirmedAccount)
-                    //{
-                    //    return RedirectToPage("RegisterConfirmation", new { email = Input.Email });
-                    //}
-                    //else
-                    //{
-                    //    await _signInManager.SignInAsync(user, isPersistent: false);
-                    //    return LocalRedirect(returnUrl);
-                    //}
                 }
                 foreach (var error in result.Errors)
                 {

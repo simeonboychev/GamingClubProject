@@ -37,7 +37,7 @@ namespace GamingProject.Utilities.Extensions
                         });
                     }
 
-                    var moderatorName = "BarCrawler";
+                    var moderatorName = "moderator";
 
                     var moderatorExists = await roleManager.RoleExistsAsync(moderatorName);
 
@@ -49,6 +49,18 @@ namespace GamingProject.Utilities.Extensions
                         });
                     }
 
+                    var userName = "user";
+
+                    var userExists = await roleManager.RoleExistsAsync(userName);
+
+                    if (!userExists)
+                    {
+                        await roleManager.CreateAsync(new IdentityRole
+                        {
+                            Name = userName
+                        });
+                    }
+
                     var adminUser = await userManager.FindByNameAsync(adminName);
 
                     if (adminUser == null)
@@ -57,19 +69,15 @@ namespace GamingProject.Utilities.Extensions
                         {
                             UserName = "admin",
                             Email = "admin@admin.com",
-                            //Role = 
-
                         };
 
                         await userManager.CreateAsync(adminUser, "admin12");
                         await userManager.AddToRoleAsync(adminUser, adminName);
                     }
-
                 })
                 .GetAwaiter()
                 .GetResult();
             }
-
         }
     }
 }

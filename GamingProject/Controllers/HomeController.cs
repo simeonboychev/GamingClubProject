@@ -20,6 +20,12 @@ namespace GamingProject.Controllers
 
         public IActionResult Index()
         {
+            if (User.IsInRole("admin"))
+                return Redirect("~/Admin");
+
+            else if (User.IsInRole("moderator"))
+                return Redirect("~/Moderator");
+
             return View();
         }
 

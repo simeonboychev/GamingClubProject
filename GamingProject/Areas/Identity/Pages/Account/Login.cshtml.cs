@@ -44,8 +44,7 @@ namespace GamingProject.Areas.Identity.Pages.Account
         public class InputModel
         {
             [Required]
-            [EmailAddress]
-            public string Email { get; set; }
+            public string Username { get; set; }
 
             [Required]
             [DataType(DataType.Password)]
@@ -80,11 +79,20 @@ namespace GamingProject.Areas.Identity.Pages.Account
             {
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-                var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
+                var result = await _signInManager.PasswordSignInAsync(Input.Username, Input.Password, Input.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
+                    var user = await _userManager.FindByNameAsync(Input.Username);
+                    var userRoles = await _userManager.GetRolesAsync(user);
+                    _logger.LogInformation("User logged in.");
+
+                    if (userRoles[0] == "admin")
+                    {
+                        returnUrl = returnUrl + "Admin/";
+                    }
                     _logger.LogInformation("User logged in.");
                     return LocalRedirect(returnUrl);
+                    //return LocalRedirect(returnUrl);
                 }
                 if (result.RequiresTwoFactor)
                 {
