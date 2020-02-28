@@ -1,0 +1,130 @@
+﻿@model ICollection<UserViewModel>
+
+@{
+    ViewData["Title"] = "OnlineUsers";
+}
+
+
+<link rel="stylesheet" type="text/css" href="~/css/table.css"  />
+
+
+<table id="myTable" class="display1" style="width:100%">
+    <thead>
+        <tr>
+            <th>Full Name</th>
+            <th>PhoneNumber</th>
+            <th>Stopwatch</th>
+            <th>EndSession</th>
+            <th>DeviceType</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var item in Model)
+        {
+            <tr id="@item.Id">
+                <td>@item.FirstName @item.LastName</td>
+                <td>@item.PhoneNumber</td>
+                <td id="@item.Counter" value="@item.CurrentPlaying.ToString()">@item.CurrentPlaying.Hours.ToString("D2"):@item.CurrentPlaying.Minutes.ToString("D2"):@item.CurrentPlaying.Seconds.ToString("D2")</td>
+                <td>
+                    @*//<a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">GamingProject</a>*@
+                    <button class="btn-primary" onclick="Test(this.id)" id="@item.Id+@item.CurrentPlaying">
+                        End Session
+                    </button>
+                </td>
+                <td></td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+@section scripts{
+
+    <script src="~/js/Table.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#myTable').DataTable();
+        });
+    </script>
+
+    <script>
+        function Test(id) {
+            let arr = id.split("+");
+            let id1 = arr[0];
+            let value = arr[1];
+            console.log(id1);
+            console.log(value);
+            var confirmation = confirm("Sigurna li si");
+            if (confirmation) {
+                $.ajax({
+                    url: 'EndSession',
+                    type: 'GET',
+                    data:
+                    {
+                        id: id1,
+                        time: value
+                    },
+                    success: function () {
+                        $(`#${id1}`).remove();
+                    }
+                })
+            }
+        }
+        $(document).ready(() => {
+
+            let count = document.getElementById("myTable").rows.length;
+
+            for (let i = 1; i < count; i++) {
+                let trTimer = $(`tr td:nth-child(3)`)[i - 1];
+                let timer = $(`tr td:nth-child(3)`)[i - 1].innerText;
+                StartTimer(timer, trTimer);
+            }
+        })
+
+        function StartTimer(timer, trTimer) {
+            let arr = timer.split(':');
+            let hours = parseInt(arr[0], 10);
+            let minutes = parseInt(arr[1], 10);
+            let seconds = parseInt(arr[2], 10);
+            let timercheto = setInterval(function () {
+
+                seconds += 1;
+                if (seconds === 60) {
+                    seconds = 0;
+                    minutes += 1;
+                    if (minutes === 60) {
+                        minutes = 0;
+                        hours += 1;
+                    }
+                }
+
+
+
+                hours = parseInt(hours, 10) // 0   //00
+                minutes = parseInt(minutes, 10) // 25
+                seconds = parseInt(seconds, 10) //59 /1
+
+                seconds = seconds < 10 ? "0" + seconds : seconds;
+                minutes = minutes < 10 ? "0" + minutes : minutes;
+                hours = hours < 10 ? "0" + hours : hours;
+
+
+
+
+                trTimer.innerText = `${hours}:${minutes}:${seconds}`;
+
+                hours = parseInt(hours, 10) // 0   //00
+                minutes = parseInt(minutes, 10) // 25
+                seconds = parseInt(seconds, 10) //59 /1
+
+            }, 1000);
+        }
+
+
+
+    </script>
+}
+
+
+

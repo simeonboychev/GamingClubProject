@@ -15,6 +15,8 @@ using Microsoft.Extensions.Hosting;
 using GamingProject.Data.Context;
 using GamingProject.Models;
 using GamingProject.Utilities.Extensions;
+using GamingProject.Services.Mappers.Register;
+using GamingProject.Utilities.Mappers.Registration;
 
 namespace GamingProject
 {
@@ -45,6 +47,24 @@ namespace GamingProject
                 .AddRoles<IdentityRole>()
                 .AddRoleManager<RoleManager<IdentityRole>>()
                 .AddEntityFrameworkStores<GamingProjectContext>();
+            
+            services.AddBusinessLogic();
+            services.AddCustomDTOMappers();
+            services.AddViewModelCustomMapper();
+
+            //services.AddAuthorization(options =>
+            //{
+            //    options.AddPolicy("RequireAdministratorRole",
+            //        policy => policy.RequireRole("admin"));
+            //    options.DefaultPolicy = options.GetPolicy("RequireAdministratorRole");
+            //});
+
+            //services.AddMvc()
+            //   .AddRazorPagesOptions(options =>
+            //   {
+            //       options.Conventions.AuthorizePage("/About", "RequireAdministratorRole");
+            //       options.Conventions.AuthorizeAreaPage("Identity", "/Account/Register");
+            //   });
 
             services.AddControllersWithViews();
             services.AddRazorPages();
@@ -74,17 +94,6 @@ namespace GamingProject
 
             app.UseAuthentication();
             app.UseAuthorization();
-
-            //app.UseMvc(routes =>
-            //{
-            //    routes.MapRoute(
-            //        name: "area",
-            //        template: );
-
-            //    routes.MapRoute(
-            //        name: "default",
-            //        template: "{controller=Home}/{action=Index}/{id?}");
-            //});
 
             app.UseEndpoints(endpoints =>
             {

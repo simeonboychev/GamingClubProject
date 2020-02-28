@@ -19,6 +19,46 @@ namespace GamingProject.Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("GamingProject.Models.Device", b =>
+                {
+                    b.Property<string>("DeviceName")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<bool>("Available")
+                        .HasColumnType("bit");
+
+                    b.Property<TimeSpan?>("PlayedTime")
+                        .HasColumnType("time");
+
+                    b.Property<string>("Type")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("DeviceName");
+
+                    b.ToTable("Devices");
+                });
+
+            modelBuilder.Entity("GamingProject.Models.Session", b =>
+                {
+                    b.Property<string>("DeviceID")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("UserID")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("SessionStart")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.HasKey("DeviceID", "UserID", "SessionStart");
+
+                    b.HasIndex("UserID");
+
+                    b.ToTable("Sessions");
+                });
+
             modelBuilder.Entity("GamingProject.Models.User", b =>
                 {
                     b.Property<string>("Id")
@@ -38,11 +78,26 @@ namespace GamingProject.Data.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<string>("FirstName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("IdentificationNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsInSession")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
 
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("datetimeoffset");
+
+                    b.Property<int>("MinutesPlayed")
+                        .HasColumnType("int");
 
                     b.Property<string>("NormalizedEmail")
                         .HasColumnType("nvarchar(256)")
@@ -60,6 +115,9 @@ namespace GamingProject.Data.Migrations
 
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
+
+                    b.Property<DateTime>("RegisteredOn")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
@@ -217,6 +275,21 @@ namespace GamingProject.Data.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("GamingProject.Models.Session", b =>
+                {
+                    b.HasOne("GamingProject.Models.Device", "Device")
+                        .WithMany("Sessions")
+                        .HasForeignKey("DeviceID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("GamingProject.Models.User", "User")
+                        .WithMany("Sessions")
+                        .HasForeignKey("UserID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

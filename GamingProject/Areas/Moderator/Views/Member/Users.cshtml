@@ -1,0 +1,37 @@
+﻿@model HomePageViewModel
+
+@{
+    ViewData["Title"] = "Users";
+}
+
+<h1>Users</h1>
+
+<table style="width:100%">
+    <tr>
+        <th>Full Name</th>
+        <th>PhoneNumber</th>
+        <th>Stopwatch</th>
+    </tr>
+    @foreach (var item in Model.UserViews)
+    {
+        <tr>
+            <td>
+                <a asp-action="Details" asp-controller="Member" asp-route-id="@item.Id">@item.FirstName @item.LastName</a>
+            </td>
+            <td>@item.PhoneNumber</td>
+            @* TODO if has session *@
+            @if (!item.IsInSession)
+            {
+                <td>
+                    <a asp-action="CreateSession" asp-controller="Session" asp-route-id="@item.Id">CreateSession</a>
+                </td>
+            }
+            else
+            {
+                <td>
+                    <a style="pointer-events: none; cursor: default; color:dimgrey" asp-action="CreateSession" asp-controller="Session" asp-route-id="@item.Id">CreateSession</a>
+                </td>
+            }
+        </tr>
+    }
+</table>
