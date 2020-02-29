@@ -6,32 +6,42 @@ using GamingProject.Areas.Admin.Models;
 using GamingProject.Services.DTOs;
 using GamingProject.Services.Services.Contracts;
 using GamingProject.Utilities.Mappers.Contracts;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GamingProject.Areas.Admin.Controllers
 {
     [Area("admin")]
+    [Authorize(Roles ="admin")]
     public class DeviceController : Controller
     {
         private readonly IDeviceService _deviceService;
         private readonly IViewModelMapper<DeviceDTO, CreateDeviceViewModel> _deviceViewModelMapper;
+        private readonly IViewModelMapper<DeviceTypeDTO, CreateDeviceTypeViewModel> _deviceTypeViewModelMapper;
+        private readonly IDeviceTypeService _deviceTypeService;
 
-        public DeviceController(IDeviceService deviceService,
-            IViewModelMapper<DeviceDTO, CreateDeviceViewModel> deviceViewModelMapper)
+        public DeviceController(IDeviceService deviceService, IViewModelMapper<DeviceDTO, CreateDeviceViewModel> deviceViewModelMapper, IViewModelMapper<DeviceTypeDTO, CreateDeviceTypeViewModel> deviceTypeViewModelMapper, IDeviceTypeService deviceTypeService)
         {
             _deviceService = deviceService;
             _deviceViewModelMapper = deviceViewModelMapper;
+            _deviceTypeViewModelMapper = deviceTypeViewModelMapper;
+            _deviceTypeService = deviceTypeService;
         }
 
         public IActionResult Index()
         {
             return View();
         }
-
         [HttpGet]
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            return View();
+            var devicetypes = await _deviceTypeService.GetAllAsync();
+            var vm = _deviceTypeViewModelMapper.MapFrom(devicetypes);
+            var newvm = new CreateDeviceViewModel
+            {
+                DeviceTypes = vm
+            };
+            return View(newvm);
         }
         [HttpPost]
         public async Task<IActionResult> Create(CreateDeviceViewModel vm)
@@ -44,6 +54,20 @@ namespace GamingProject.Areas.Admin.Controllers
                 return new JsonResult(true);
             }
             return new JsonResult(false);
+        }
+        public IActionResult CreateType()
+        {
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> CreateType(string name)
+        {
+            if(await _deviceTypeService.IsThereType(name))
+            {
+                return new JsonResult("faketype");
+            }
+            await _deviceTypeService.CreateTypeAsync(name);
+            return new JsonResult("");
         }
     }
 }

@@ -5,10 +5,9 @@ using System.Threading.Tasks;
 
 namespace GamingProject.Areas.Admin.Models
 {
-    public class CreateDeviceViewModel
+    public class CreateDeviceTypeViewModel
     {
+        public string Id { get; set; }
         public string Type { get; set; }
-        public string DeviceName { get; set; }
-        public ICollection<CreateDeviceTypeViewModel> DeviceTypes { get; set; }
     }
 }

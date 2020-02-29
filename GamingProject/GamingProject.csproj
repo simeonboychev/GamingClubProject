@@ -5,6 +5,13 @@
     <UserSecretsId>aspnet-GamingProject-D406E689-1061-4842-B0B9-77FBF791F7F7</UserSecretsId>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="Areas\Moderator\Data\**" />
+    <Content Remove="Areas\Moderator\Data\**" />
+    <EmbeddedResource Remove="Areas\Moderator\Data\**" />
+    <None Remove="Areas\Moderator\Data\**" />
+  </ItemGroup>
+
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="3.1.1" />
@@ -19,11 +26,6 @@
   <ItemGroup>
     <ProjectReference Include="..\GamingProject.Data\GamingProject.Data.csproj" />
     <ProjectReference Include="..\GamingProject.Services\GamingProject.Services.csproj" />
-  </ItemGroup>
-
-
-  <ItemGroup>
-    <Folder Include="Areas\Moderator\Data\" />
   </ItemGroup>
 
 </Project>

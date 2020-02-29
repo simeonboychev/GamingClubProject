@@ -1,4 +1,6 @@
-﻿namespace GamingProject.Services.DTOs
+﻿using GamingProject.Models;
+
+namespace GamingProject.Services.DTOs
 {
     public class DeviceDTO
     {

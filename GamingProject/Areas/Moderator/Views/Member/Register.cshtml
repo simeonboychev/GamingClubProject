@@ -4,45 +4,131 @@
     ViewData["Title"] = "CreateUser";
 }
 
-<div class="container">
-    <h1>CreateUser</h1>
-
-    <h4>UserViewModel</h4>
-    <hr />
-
-    <div class="row">
-        <div class="col-md-4">
-            <form asp-action="Register">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <div class="form-group">
-                    <label asp-for="FirstName" class="control-label"></label>
-                    <input asp-for="FirstName" class="form-control" />
-                    <span asp-validation-for="FirstName" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="LastName" class="control-label"></label>
-                    <input asp-for="LastName" class="form-control" />
-                    <span asp-validation-for="LastName" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="PhoneNumber" class="control-label"></label>
-                    <input asp-for="PhoneNumber" class="form-control" />
-                    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="IdentificationNumber" class="control-label"></label>
-                    <input asp-for="IdentificationNumber" class="form-control" />
-                    <span asp-validation-for="IdentificationNumber" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <input type="submit" value="Create" class="btn btn-primary" />
-                </div>
-            </form>
+<h1>CreateUser</h1>
+<h5 style="color:green" id="successfullResult"></h5>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <div class="form-group">
+            <p>First Name</p>
+            <input id="firstname" class="form-control" />
+            <span id="confirmfirstname" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <p>Last Name</p>
+            <input id="secondname" class="form-control" />
+            <span id="confirmsecondname" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <p>Phone Number</p>
+            <input id="phonenumber" class="form-control" />
+            <span id="confirmphonenumber" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <p>Identification Number</p>
+            <input id="idnumber" class="form-control" />
+            <span id="confirmidnumber" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <input onclick="register()" type="submit" value="Create" class="btn btn-primary" />
         </div>
     </div>
-
-    <div>
-        <a asp-action="Index">Back to List</a>
-    </div>
-
 </div>
+
+@section scripts {
+    <script>
+        function register() {
+            let firstname = $('#firstname').val();
+            let lastname = $('#secondname').val();
+            let phonenumber = $('#phonenumber').val();
+            let idnumber = $('#idnumber').val();
+            let testphonenumber = phonenumber.substr(1);
+            let isEverythingOk = true;
+            if (!phonenumber) {
+                $('#confirmphonenumber').text("Please enter phone number");
+                isEverythingOk = false;
+            }
+            else if (phonenumber.length !== 10) {
+                $('#confirmphonenumber').text("Phone numbers must be 10 digits");
+                isEverythingOk = false;
+            }
+            else if (phonenumber[0] !== "0") {
+                $('#confirmphonenumber').text("Phone numbers must start with 0");
+                isEverythingOk = false;
+            }
+            else if (isNaN(testphonenumber)) {
+                isEverythingOk = false;
+                $('#confirmphonenumber').text("Phone number must contain only digits");
+            }
+            else {
+                $('#confirmphonenumber').text("");
+            }
+            if (!firstname) {
+                $('#confirmfirstname').text("Please enter first name");
+                isEverythingOk = false;
+            }
+            else if (firstname.length < 3) {
+                $('#confirmfirstname').text("Please enter name with atleast 3 characters");
+                isEverythingOk = false;
+            }
+            else {
+                $('#confirmfirstname').text("");
+            }
+
+            if (!lastname) {
+                $('#confirmsecondname').text("Please enter last name");
+                isEverythingOk = false;
+            }
+            else if (lastname.length < 3) {
+                $('#confirmsecondname').text("Please enter last name with atleast 3 characters");
+                isEverythingOk = false;
+            }
+            else {
+                $('#confirmsecondname').text("");
+            }
+            if (!idnumber) {
+                $('#confirmidnumber').text("Please enter identification number");
+                isEverythingOk = false;
+            }
+            else if (idnumber.length !== 9) {
+                $('#confirmidnumber').text("Please enter valid identification number");
+                isEverythingOk = false;
+            }
+            else if (isNaN(idnumber)) {
+                isEverythingOk = false;
+                $('#confirmidnumber').text("Identification number must contains only digits");
+            }
+            else {
+                $('#confirmidnumber').text("");
+            }
+
+
+            if (isEverythingOk) {
+                $.ajax({
+                    url: 'Register',
+                    type: 'Post',
+                    data: {
+                        FirstName: firstname,
+                        LastName: lastname,
+                        PhoneNumber: phonenumber,
+                        IdentificationNumber: idnumber
+                    },
+                    success: function(response)
+                    {
+                        if (response === "fakephone") {
+                            $('#confirmphonenumber').text("This phone number is already in our database");
+                            $('#successfullResult').text("");
+                        }
+                        else {
+                            $('#successfullResult').text("User was created successfully!");
+                            $('#firstname').val("");
+                            $('#secondname').val("");
+                            $('#phonenumber').val("");
+                            $('#idnumber').val("");
+                        }
+                    }
+                })
+            }
+        }
+    </script>
+}

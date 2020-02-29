@@ -1,0 +1,56 @@
+﻿
+@{
+    ViewData["Title"] = "CreateType";
+}
+
+<h1>CreateType</h1>
+<h5 style="color:green" id="green"></h5>
+<h5 style="color:red" id="red"></h5>
+<p>Device Type</p>
+<input oninput="clearH5()" id="type" />
+<br />
+<br />
+<br />
+<button type="button" class="btn-primary" id="btntype">Create</button>
+
+@section scripts {
+    <script>
+
+        document.onkeyup = function (e) {
+            if (e.which == 13) {
+                createdevicetype();
+            }
+        }
+        $('#btntype').click(function (e) {
+            createdevicetype();
+        })
+
+        function clearH5() {
+            $('#red').text("")
+            $('#green').text("");
+        }
+        function createdevicetype() {
+
+            let input = $('#type').val();
+            console.log(input);
+            $.ajax({
+                url: 'CreateType',
+                type: 'Post',
+                data:
+                {
+                    name: input
+                },
+                success: function (response) {
+                    if (response === "faketype") {
+                        $('#red').text("You have already this type")
+                        $('#green').text("");
+                    }
+                    else {
+                        $('#green').text("Device type created successfully")
+                        $('#red').text("");
+                    }
+                }
+            })
+        }
+    </script>
+}

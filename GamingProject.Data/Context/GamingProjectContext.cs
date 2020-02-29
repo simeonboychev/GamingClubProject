@@ -12,6 +12,7 @@ namespace GamingProject.Data.Context
 {
     public class GamingProjectContext : IdentityDbContext<User>
     {
+        public DbSet<DeviceType> DeviceTypes { get; set; }
         public DbSet<Device> Devices { get; set; }
         public DbSet<Session> Sessions { get; set; }
         public GamingProjectContext(DbContextOptions<GamingProjectContext> options)

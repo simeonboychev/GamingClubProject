@@ -42,6 +42,10 @@ namespace GamingProject.Areas.Moderator.Controllers
         [HttpPost]
         public async Task<IActionResult> Register(UserViewModel viewModel)
         {
+            if (await _memberService.ContainPhoneAsync(viewModel.PhoneNumber))
+            {
+                return new JsonResult("fakephone");
+            }
             var dto = _userViewModelMapper.MapFrom(viewModel);
             await _memberService.CreateUser(dto);
 
@@ -88,21 +92,17 @@ namespace GamingProject.Areas.Moderator.Controllers
             return View(viewModel);
         }
 
-        public async Task<IActionResult> EndSession(string id, TimeSpan time)
+        public async Task EndSession(string id, TimeSpan time)
         {
             await _sessionService.EndUserSessionAsync(id,time);
-
-            return Redirect("~/Moderator/Member/UsersOnline");
+            
         }
-        //[HttpGet]
-        //public IActionResult StartSession()
-        //{
 
-        //}
-        //[HttpPost]
-        //public async Task<IActionResult> StartSession()
-        //{
+        public async Task<string> CalculateSum(string id)
+        {
+            var sum = await _sessionService.GetSum(id);
 
-        //}
+            return String.Format("{0:0.00}", sum);
+        }
     }
 }

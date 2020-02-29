@@ -15,6 +15,7 @@ namespace GamingProject.Utilities.Extensions
             services.AddScoped<IMemberService,MemberService>();
             services.AddScoped<IDeviceService, DeviceService>();
             services.AddScoped<ISessionService, SessionService>();
+            services.AddScoped<IDeviceTypeService, DeviceTypeService>();
 
             return services;
         }

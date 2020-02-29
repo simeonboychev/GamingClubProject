@@ -13,6 +13,8 @@ namespace GamingProject.Services.DTOs
         public string SessionId { get; set; }
         public bool IsInSession { get; set; }
         public string IdentificationNumber { get; set; }
+        public string CurrentDeviceType { get; set; }
+        public string CurrentDeviceName { get; set; }
         
         public DateTime RegisteredOn { get; set; }
     }

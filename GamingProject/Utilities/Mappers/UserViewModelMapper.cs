@@ -20,7 +20,9 @@ namespace GamingProject.Utilities.Mappers
                 PhoneNumber = dtoEntity.PhoneNumber,
                 IdentificationNumber = dtoEntity.IdentificationNumber,
                 IsInSession = dtoEntity.IsInSession,
-                RegisteredOn = dtoEntity.RegisteredOn
+                RegisteredOn = dtoEntity.RegisteredOn,
+                DeviceName = dtoEntity.CurrentDeviceName,
+                DeviceType = dtoEntity.CurrentDeviceType
             };
         }
 
