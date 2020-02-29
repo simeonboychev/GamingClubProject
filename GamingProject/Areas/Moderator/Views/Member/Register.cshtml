@@ -4,33 +4,35 @@
     ViewData["Title"] = "CreateUser";
 }
 
-<h1>CreateUser</h1>
-<h5 style="color:green" id="successfullResult"></h5>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <div class="form-group">
-            <p>First Name</p>
-            <input id="firstname" class="form-control" />
-            <span id="confirmfirstname" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <p>Last Name</p>
-            <input id="secondname" class="form-control" />
-            <span id="confirmsecondname" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <p>Phone Number</p>
-            <input id="phonenumber" class="form-control" />
-            <span id="confirmphonenumber" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <p>Identification Number</p>
-            <input id="idnumber" class="form-control" />
-            <span id="confirmidnumber" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <input onclick="register()" type="submit" value="Create" class="btn btn-primary" />
+<div class="container">
+    <h1>CreateUser</h1>
+    <h5 style="color:green" id="successfullResult"></h5>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <p>First Name</p>
+                <input id="firstname" class="form-control" />
+                <span id="confirmfirstname" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <p>Last Name</p>
+                <input id="secondname" class="form-control" />
+                <span id="confirmsecondname" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <p>Phone Number</p>
+                <input id="phonenumber" class="form-control" />
+                <span id="confirmphonenumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <p>Identification Number</p>
+                <input id="idnumber" class="form-control" />
+                <span id="confirmidnumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input onclick="register()" type="submit" value="Create" class="btn btn-primary" />
+            </div>
         </div>
     </div>
 </div>
@@ -113,8 +115,7 @@
                         PhoneNumber: phonenumber,
                         IdentificationNumber: idnumber
                     },
-                    success: function(response)
-                    {
+                    success: function (response) {
                         if (response === "fakephone") {
                             $('#confirmphonenumber').text("This phone number is already in our database");
                             $('#successfullResult').text("");

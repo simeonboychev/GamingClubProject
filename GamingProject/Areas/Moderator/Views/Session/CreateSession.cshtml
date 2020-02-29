@@ -12,13 +12,11 @@
         <div class="col-md-4">
             @if (Model.AllDevices.Count != 0)
             {
-
                 <form asp-action="CreateSession">
                     <p>Select a device</p>
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <input hidden="hidden" asp-for="UserID" value="@Model.UserID">
-                    <select id="myList" asp-for="SelectedDevice" onchange="Test()">
-                        <option value="Select ingredient" disabled="disabled" selected="selected"></option>
+                    <select id="myList" asp-for="SelectedDevice">
                         @foreach (var item in Model.AllDevices)
                         {
                             <option value="@item.Value">Name:@item.Value || Type:@item.Text </option>
@@ -37,9 +35,4 @@
             }
         </div>
     </div>
-
-    <div>
-        <a asp-action="Index">Back to List</a>
-    </div>
-
 </div>

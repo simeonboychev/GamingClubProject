@@ -6,11 +6,13 @@ using GamingProject.Areas.Moderator.Models;
 using GamingProject.Services.DTOs;
 using GamingProject.Services.Services.Contracts;
 using GamingProject.Utilities.Mappers.Contracts;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GamingProject.Areas.Moderator.Controllers
 {
     [Area("Moderator")]
+    [Authorize(Roles = "moderator")]
     public class MemberController : Controller
     {
         private readonly IMemberService _memberService;

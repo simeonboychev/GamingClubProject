@@ -67,7 +67,6 @@ namespace GamingProject.Services.Services
         public async Task<ICollection<SessionDTO>> GetActiveSessionsAsync()
         {
             var sessions = await _context.Sessions.Where(s => s.IsDeleted == false).Include(x=>x.Device).ToListAsync();
-
             var sessionsDTO =  _sessionMapper.MapFrom(sessions);
 
             return sessionsDTO;

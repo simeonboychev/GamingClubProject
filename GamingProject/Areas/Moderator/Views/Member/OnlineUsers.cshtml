@@ -48,7 +48,7 @@
                                 <div class="modal-body">
                                     <h3>USER: @item.FirstName @item.LastName</h3>
                                     <h4>
-                                        Дължима сума:
+                                        Amount to be paid for @item.DeviceName:
                                         <span id="@item.Id+suma"></span>
                                     </h4>
                                 </div>
@@ -92,10 +92,7 @@
                     id: id1
                 },
                 success: function (response) {
-                    console.log(response);
-                    let arr = response.split(',');
-                    console.log(arr);
-                    spanforsum.innerHTML = arr[0] + " лева " + arr[1] + " стотинки."
+                    spanforsum.innerHTML = response + " lv"
                 }
             })
             //if (confirmation) {
