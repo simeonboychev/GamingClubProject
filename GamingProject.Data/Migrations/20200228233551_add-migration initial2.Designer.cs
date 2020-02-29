@@ -4,14 +4,16 @@ using GamingProject.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace GamingProject.Data.Migrations
 {
     [DbContext(typeof(GamingProjectContext))]
-    partial class GamingProjectContextModelSnapshot : ModelSnapshot
+    [Migration("20200228233551_add-migration initial2")]
+    partial class addmigrationinitial2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

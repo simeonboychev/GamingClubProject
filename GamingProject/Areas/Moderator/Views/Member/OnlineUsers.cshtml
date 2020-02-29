@@ -5,17 +5,18 @@
 }
 
 
-<link rel="stylesheet" type="text/css" href="~/css/table.css"  />
+<link rel="stylesheet" type="text/css" href="~/css/table.css" />
 
 
-<table id="myTable" class="display1" style="width:100%">
+<table id="myTable" class="display1" style="width:100%; text-align:center">
     <thead>
         <tr>
-            <th>Full Name</th>
-            <th>PhoneNumber</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Device Type</th>
+            <th>Device Name</th>
             <th>Stopwatch</th>
             <th>EndSession</th>
-            <th>DeviceType</th>
         </tr>
     </thead>
     <tbody>
@@ -23,16 +24,42 @@
         @foreach (var item in Model)
         {
             <tr id="@item.Id">
-                <td>@item.FirstName @item.LastName</td>
-                <td>@item.PhoneNumber</td>
-                <td id="@item.Counter" value="@item.CurrentPlaying.ToString()">@item.CurrentPlaying.Hours.ToString("D2"):@item.CurrentPlaying.Minutes.ToString("D2"):@item.CurrentPlaying.Seconds.ToString("D2")</td>
+                <td>@item.FirstName </td>
+                <td>@item.LastName</td>
+                <td>@item.DeviceType</td>
+                <td>@item.DeviceName</td>
+                <td id="0" value="@item.CurrentPlaying.ToString()">@item.CurrentPlaying.Hours.ToString("D2"):@item.CurrentPlaying.Minutes.ToString("D2"):@item.CurrentPlaying.Seconds.ToString("D2")</td>
                 <td>
-                    @*//<a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">GamingProject</a>*@
-                    <button class="btn-primary" onclick="Test(this.id)" id="@item.Id+@item.CurrentPlaying">
+                    <button class="btn-primary" data-toggle="modal" data-target="#exampleModal" onclick="Test(this.id)" id="@item.Id+@item.CurrentPlaying">
                         End Session
                     </button>
+
+                    <div class="modal fade @item.Id" id="@item.Id" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 align="center" class="modal-title text-center" id="exampleModalLabel"></h5>
+                                    <div id="@item.Id+timerId"></div>
+                                    <button type="button" value="@item.Id" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+
+                                <div class="modal-body">
+                                    <h3>USER: @item.FirstName @item.LastName</h3>
+                                    <h4>
+                                        Дължима сума:
+                                        <span id="@item.Id+suma"></span>
+                                    </h4>
+                                </div>
+
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" value="@item.Id" data-dismiss="modal">Cancel</button>
+                                    <button type="button" class="btn btn-secondary" id="@item.Id+@item.CurrentPlaying"  onclick="EndSession(this.id)">End Session</button>
+                                </div>
+                            </div>
+                        </div>
                 </td>
-                <td></td>
             </tr>
         }
     </tbody>
@@ -53,31 +80,58 @@
             let arr = id.split("+");
             let id1 = arr[0];
             let value = arr[1];
-            console.log(id1);
-            console.log(value);
-            var confirmation = confirm("Sigurna li si");
-            if (confirmation) {
-                $.ajax({
-                    url: 'EndSession',
-                    type: 'GET',
-                    data:
-                    {
-                        id: id1,
-                        time: value
-                    },
-                    success: function () {
-                        $(`#${id1}`).remove();
-                    }
-                })
-            }
+            ModalTest(id1);
+
+            let suma = id1 + "+suma";
+            let spanforsum = document.getElementById(suma);
+
+            $.ajax({
+                url: 'CalculateSum',
+                type: 'GET',
+                data: {
+                    id: id1
+                },
+                success: function (response) {
+                    console.log(response);
+                    let arr = response.split(',');
+                    console.log(arr);
+                    spanforsum.innerHTML = arr[0] + " лева " + arr[1] + " стотинки."
+                }
+            })
+            //if (confirmation) {
+
+        }
+        function EndSession(id) {
+            let arr = id.split("+");
+            let id1 = arr[0];
+            let value = arr[1];
+            $.ajax({
+                url: 'EndSession',
+                type: 'GET',
+                data:
+                {
+                    id: id1,
+                    time: value
+                },
+                success: function () {
+                    
+                    $(`.${id1}`).modal('hide');
+                    $('.modal-backdrop').hide();
+                    $(`#${id1}`).remove();
+                }
+            })
+        }
+            
+        function ModalTest(id) {
+            $(`.${id}`).modal('show');
         }
         $(document).ready(() => {
 
             let count = document.getElementById("myTable").rows.length;
 
             for (let i = 1; i < count; i++) {
-                let trTimer = $(`tr td:nth-child(3)`)[i - 1];
-                let timer = $(`tr td:nth-child(3)`)[i - 1].innerText;
+                let trTimer = $(`tr td:nth-child(5)`)[i - 1];
+                let timer = $(`tr td:nth-child(5)`)[i - 1].innerText;
                 StartTimer(timer, trTimer);
             }
         })

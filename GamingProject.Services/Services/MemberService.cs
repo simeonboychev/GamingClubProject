@@ -78,5 +78,10 @@ namespace GamingProject.Services.Services
 
             return usersDTO;
         }
+
+        public async Task<bool> ContainPhoneAsync(string phoneNumber)
+        {
+            return await _context.Users.AnyAsync(x => x.PhoneNumber == phoneNumber);
+        }
     }
 }

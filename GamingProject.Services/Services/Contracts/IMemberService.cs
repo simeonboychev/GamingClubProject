@@ -10,5 +10,6 @@ namespace GamingProject.Services.Services.Contracts
         Task<UserDTO> CreateUser(UserDTO user);
         Task<UserDTO> GetUserAsync(string FirstName);
         Task<ICollection<UserDTO>> OnlineUsers();
+        Task<bool> ContainPhoneAsync(string phoneNumber);
     }
 }

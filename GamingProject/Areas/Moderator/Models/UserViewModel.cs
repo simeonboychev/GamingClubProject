@@ -11,8 +11,8 @@ namespace GamingProject.Areas.Moderator.Models
         public string PhoneNumber { get; set; }
         public string IdentificationNumber { get; set; }
         public bool IsInSession { get; set; }
-        public int Counter { get; set; }
-        public int RemainingMinutes { get; set; }
+        public string DeviceType { get; set; }
+        public string DeviceName { get; set; }
         public DateTime RegisteredOn { get; set; }
     }
 }

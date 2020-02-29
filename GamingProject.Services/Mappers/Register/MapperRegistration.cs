@@ -17,6 +17,7 @@ namespace GamingProject.Services.Mappers.Register
             services.AddScoped<IDTOServiceMapper<User, UserDTO>, UserEntityMapper>();
             services.AddScoped<IDTOServiceMapper<Device, DeviceDTO>, DeviceEntityMapper>();
             services.AddScoped<IDTOServiceMapper<Session, SessionDTO>, SessionEntityMapper>();
+            services.AddScoped<IDTOServiceMapper<DeviceType, DeviceTypeDTO>, DeviceTypeEntityMapper>();
             
             return services;
         }

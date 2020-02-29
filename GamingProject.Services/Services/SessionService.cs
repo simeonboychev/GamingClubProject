@@ -66,13 +66,19 @@ namespace GamingProject.Services.Services
 
         public async Task<ICollection<SessionDTO>> GetActiveSessionsAsync()
         {
-            var sessions = await _context.Sessions.Where(s => s.IsDeleted == false).ToListAsync();
+            var sessions = await _context.Sessions.Where(s => s.IsDeleted == false).Include(x=>x.Device).ToListAsync();
 
             var sessionsDTO =  _sessionMapper.MapFrom(sessions);
 
             return sessionsDTO;
         }
-        
-        
+
+        public async Task<double> GetSum(string id)
+        {
+            var session = await _context.Sessions.FirstAsync(x => x.UserID == id && x.IsDeleted == false);
+            var hoursplayed = DateTime.Now.Subtract(session.SessionStart).TotalHours;
+
+            return hoursplayed * 2;
+        }
     }
 }

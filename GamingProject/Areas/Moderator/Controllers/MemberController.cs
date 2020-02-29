@@ -40,9 +40,13 @@ namespace GamingProject.Areas.Moderator.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> Register(HomePageViewModel viewModel)
+        public async Task<IActionResult> Register(UserViewModel viewModel)
         {
-            var dto = _userViewModelMapper.MapFrom(viewModel.UserViewModel);
+            if (await _memberService.ContainPhoneAsync(viewModel.PhoneNumber))
+            {
+                return new JsonResult("fakephone");
+            }
+            var dto = _userViewModelMapper.MapFrom(viewModel);
             await _memberService.CreateUser(dto);
 
             return Redirect("/Home/Index");
@@ -71,6 +75,7 @@ namespace GamingProject.Areas.Moderator.Controllers
             {
                 foreach(var session in sessions )
                 {
+                    
                     if(user.Id==session.UserID)
                     {
                         user.CurrentPlaying = DateTime.Now.Subtract(session.StartTime);
@@ -88,21 +93,17 @@ namespace GamingProject.Areas.Moderator.Controllers
             return View(viewModel);
         }
 
-        public async Task<IActionResult> EndSession(string id, TimeSpan time)
+        public async Task EndSession(string id, TimeSpan time)
         {
             await _sessionService.EndUserSessionAsync(id,time);
-            var stop = 0;
-            return Ok();
+            
         }
-        //[HttpGet]
-        //public IActionResult StartSession()
-        //{
 
-        //}
-        //[HttpPost]
-        //public async Task<IActionResult> StartSession()
-        //{
+        public async Task<string> CalculateSum(string id)
+        {
+            var sum = await _sessionService.GetSum(id);
 
-        //}
+            return String.Format("{0:0.00}", sum);
+        }
     }
 }
