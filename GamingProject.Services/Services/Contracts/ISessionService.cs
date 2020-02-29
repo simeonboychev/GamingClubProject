@@ -10,5 +10,6 @@ namespace GamingProject.Services.Services.Contracts
         Task<ICollection<SessionDTO>> GetActiveSessionsAsync();
         Task<SessionDTO> Create(SessionDTO dto);
         Task EndUserSessionAsync(string id, TimeSpan time);
+        Task<ICollection<SessionDTO>> GetSessionHistoryAsync(string date);
     }
 }

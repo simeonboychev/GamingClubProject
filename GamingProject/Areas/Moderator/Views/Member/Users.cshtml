@@ -4,34 +4,59 @@
     ViewData["Title"] = "Users";
 }
 
-<h1>Users</h1>
+<link rel="stylesheet" type="text/css" href="~/css/table.css" />
 
-<table style="width:100%">
-    <tr>
-        <th>Full Name</th>
-        <th>PhoneNumber</th>
-        <th>Stopwatch</th>
-    </tr>
-    @foreach (var item in Model.UserViews)
-    {
+
+<table id="myTable" class="display1" style="width:100%; text-align:center;">
+    <thead>
         <tr>
-            <td>
-                <a asp-action="Details" asp-controller="Member" asp-route-id="@item.Id">@item.FirstName @item.LastName</a>
-            </td>
-            <td>@item.PhoneNumber</td>
-            @* TODO if has session *@
-            @if (!item.IsInSession)
-            {
-                <td>
-                    <a asp-action="CreateSession" asp-controller="Session" asp-route-id="@item.Id">CreateSession</a>
-                </td>
-            }
-            else
-            {
-                <td>
-                    <a style="pointer-events: none; cursor: default; color:dimgrey" asp-action="CreateSession" asp-controller="Session" asp-route-id="@item.Id">CreateSession</a>
-                </td>
-            }
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Phone Number</th>
+            <th>Create Session</th>
+            <th>Details</th>
         </tr>
-    }
+    </thead>
+    <tbody>
+        @foreach (var item in Model.UserViews)
+        {
+            <tr>
+                <td>@item.FirstName</td>
+                <td>@item.LastName</td>
+                <td>@item.PhoneNumber</td>
+                @if (!item.IsInSession)
+                {
+                    <td>
+                        <button class="btn-secondary" onclick="Session(this.id)" id="@item.Id">CreateSession</button>
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        <button disabled="disabled" class="btn-primary">CreateSession</button>
+                    </td>
+                }
+                <td>
+                    <button class="btn-secondary" onclick="Details(this.id)" id="@item.Id">Details</button>
+                </td>
+            </tr>
+        }
+    </tbody>
 </table>
+
+@section scripts{
+    <script src="~/js/Table.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#myTable').DataTable();
+        });
+
+        function Details(id) {
+            window.location.replace(`/Moderator/Member/Details?id=${id}`);
+        }
+
+        function Session(id) {
+            window.location.replace(`/Moderator/Session/CreateSession?id=${id}`);
+        }
+    </script>
+}

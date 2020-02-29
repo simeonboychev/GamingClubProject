@@ -1,0 +1,51 @@
+﻿
+@{
+    ViewData["Title"] = "SessionHistory";
+}
+
+<link rel="stylesheet" type="text/css" href="~/css/sessionhistory.css" />
+
+<style>
+    html, body {
+        font-family: arial;
+    }
+</style>
+
+
+<div class="container">
+    <h1>SessionHistory</h1>
+
+    <input type="text" id="input-inline" />
+    <button onclick="GetSessions()">Get Sessions</button>
+    <br><br>
+    <div id="pick-inline"></div>
+</div>
+
+
+
+@section scripts{
+    <script src="~/js/sessionhistory.js"></script>
+    <script>
+        window.addEventListener("load", function () {
+            // container + target input
+            picker.attach("pick-inline", "input-inline");
+        });
+
+        function GetSessions() {
+            console.log("test");
+            let date = document.getElementById('input-inline').value;
+            console.log(date);
+            $.ajax({
+                url: "SessionHistory",
+                type: "post",
+                data: {
+                    date:date
+                },
+                success: function (response) {
+                    console.log("success");
+                    console.log(response);
+                }
+            })
+        }
+    </script>
+}

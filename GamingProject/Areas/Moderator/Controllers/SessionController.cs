@@ -30,16 +30,11 @@ namespace GamingProject.Areas.Moderator.Controllers
         {
             return View();
         }
-
-        public IActionResult Asd()
-        {
-            return View();
-        }
         public async Task<IActionResult> CreateSession(string id)
         {
             var devices = await _deviceService.GetAllDevices();
-            var deviceSelectList = devices.Select(d => new SelectListItem { Text=d.Type,Value=d.DeviceName}).OrderBy(x=>x.Text).ThenBy(x=>x.Value.Length).ThenBy(x=>x.Value).ToList();
-            
+            var deviceSelectList = devices.Select(d => new SelectListItem { Text = d.Type, Value = d.DeviceName }).OrderBy(x => x.Text).ThenBy(x => x.Value.Length).ThenBy(x => x.Value).ToList();
+
             var vm = new CreateSessionViewModel()
             {
                 UserID = id,
@@ -55,6 +50,18 @@ namespace GamingProject.Areas.Moderator.Controllers
             await _sessionService.Create(dto);
 
             return Redirect("~/Moderator/Member/OnlineUsers");
+        }
+        [HttpGet]
+        public IActionResult Sessionhistory()
+        {
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> Sessionhistory(string date)
+        {
+            var dtos = await _sessionService.GetSessionHistoryAsync(date);
+
+            return Ok(dtos);
         }
     }
 }

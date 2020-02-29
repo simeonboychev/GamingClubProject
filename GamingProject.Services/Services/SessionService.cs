@@ -72,7 +72,12 @@ namespace GamingProject.Services.Services
 
             return sessionsDTO;
         }
-        
-        
+        public async Task<ICollection<SessionDTO>> GetSessionHistoryAsync(string date)
+        {
+            var sessions = await _context.Sessions.Where(s => s.SessionStart.ToString().StartsWith(date)).ToListAsync();
+            var sessionDtos = _sessionMapper.MapFrom(sessions);
+            
+            return sessionDtos;
+        }
     }
 }

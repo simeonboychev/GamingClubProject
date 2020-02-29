@@ -11,7 +11,7 @@ namespace GamingProject.Areas.Moderator.Controllers
     {
         public IActionResult Index()
         {
-            return View();
+            return Redirect("~/Moderator/Member/OnlineUsers");
         }
     }
 }

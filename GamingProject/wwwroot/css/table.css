@@ -454,9 +454,12 @@
     font-size: 11pt;
 }
 
-    /*.display1 tr:hover {
-        background-color: #faeee2;
-    }*/
+.display1 td {
+    background: #D6D6D6;
+    font-size: 11pt;
+}
+
+    
 
 /*
 .buttonsTest2 {

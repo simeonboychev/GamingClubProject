@@ -40,12 +40,12 @@ namespace GamingProject.Areas.Moderator.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> Register(HomePageViewModel viewModel)
+        public async Task<IActionResult> Register(UserViewModel viewModel)
         {
-            var dto = _userViewModelMapper.MapFrom(viewModel.UserViewModel);
+            var dto = _userViewModelMapper.MapFrom(viewModel);
             await _memberService.CreateUser(dto);
 
-            return Redirect("/Home/Index");
+            return Redirect("~/Moderator/Member/OnlineUsers");
         }
         [HttpGet]
         public async Task<IActionResult> Users()
@@ -91,8 +91,8 @@ namespace GamingProject.Areas.Moderator.Controllers
         public async Task<IActionResult> EndSession(string id, TimeSpan time)
         {
             await _sessionService.EndUserSessionAsync(id,time);
-            var stop = 0;
-            return Ok();
+
+            return Redirect("~/Moderator/Member/UsersOnline");
         }
         //[HttpGet]
         //public IActionResult StartSession()
