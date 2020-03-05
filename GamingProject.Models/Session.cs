@@ -9,7 +9,8 @@ namespace GamingProject.Models
     public class Session
     {
         public DateTime SessionStart { get; set; }
-
+        public TimeSpan Duration { get; set; }
+        public double Price { get; set; }
         public bool IsDeleted { get; set; }
 
         public string UserID { get; set; }

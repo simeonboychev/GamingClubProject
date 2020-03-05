@@ -17,11 +17,15 @@ namespace GamingProject.Services.Services
     {
         private readonly GamingProjectContext _context;
         private readonly IDTOServiceMapper<Session,SessionDTO> _sessionMapper;
+        private readonly IDTOServiceMapper<Session, DisplaySessionDTO> _displaySessionMapper;
 
-        public SessionService(GamingProjectContext context, IDTOServiceMapper<Session, SessionDTO> sessionMapper)
+        public SessionService(GamingProjectContext context, 
+                              IDTOServiceMapper<Session, SessionDTO> sessionMapper,
+                              IDTOServiceMapper<Session,DisplaySessionDTO> displaySessionMapper)
         {
             _context = context;
             _sessionMapper = sessionMapper;
+            _displaySessionMapper = displaySessionMapper;
         }
 
         public async Task<SessionDTO> Create(SessionDTO dto)
@@ -58,6 +62,8 @@ namespace GamingProject.Services.Services
             await _context.SaveChangesAsync();
 
             session.IsDeleted = true;
+            session.Duration = time;
+            session.Price = 1;//SET PRICE
             await _context.SaveChangesAsync();
 
             user.IsInSession = false;
@@ -71,10 +77,14 @@ namespace GamingProject.Services.Services
 
             return sessionsDTO;
         }
-        public async Task<ICollection<SessionDTO>> GetSessionHistoryAsync(string date)
+        public async Task<ICollection<DisplaySessionDTO>> GetSessionHistoryAsync(string date)
         {
-            var sessions = await _context.Sessions.Where(s => s.SessionStart.ToString().StartsWith(date)).ToListAsync();
-            var sessionDtos = _sessionMapper.MapFrom(sessions);
+            var sessions = await _context.Sessions
+                .Include(s=>s.User)
+                .Include(s=>s.Device)
+                .Where(s => s.SessionStart.ToString().StartsWith(date))
+                .ToListAsync();
+            var sessionDtos = _displaySessionMapper.MapFrom(sessions);
             
             return sessionDtos;
         }
