@@ -8,7 +8,7 @@ namespace GamingProject.Services.Services.Contracts
 {
     public interface IDeviceTypeService
     {
-        Task CreateTypeAsync(string name);
+        Task CreateTypeAsync(string name, double price);
         Task<bool> IsThereType(string name);
         Task<ICollection<DeviceTypeDTO>> GetAllAsync();
     }
