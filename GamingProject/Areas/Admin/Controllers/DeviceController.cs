@@ -60,13 +60,14 @@ namespace GamingProject.Areas.Admin.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> CreateType(string name)
+        public async Task<IActionResult> CreateType(string name,string price)
         {
             if(await _deviceTypeService.IsThereType(name))
             {
                 return new JsonResult("faketype");
             }
-            await _deviceTypeService.CreateTypeAsync(name);
+            price = price.Replace('.', ',');
+            await _deviceTypeService.CreateTypeAsync(name,Double.Parse(price));
             return new JsonResult("");
         }
     }

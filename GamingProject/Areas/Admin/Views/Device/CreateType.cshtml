@@ -8,6 +8,10 @@
 <h5 style="color:red" id="red"></h5>
 <p>Device Type</p>
 <input oninput="clearH5()" id="type" />
+<p>Amount Per Hour</p>
+<input oninput="clearH5()" id="price" />
+<br />
+<span class="alert-danger" id="invalidprice"></span>
 <br />
 <br />
 <br />
@@ -30,27 +34,44 @@
             $('#green').text("");
         }
         function createdevicetype() {
-
+            let iseverything = true;
             let input = $('#type').val();
-            console.log(input);
-            $.ajax({
-                url: 'CreateType',
-                type: 'Post',
-                data:
-                {
-                    name: input
-                },
-                success: function (response) {
-                    if (response === "faketype") {
-                        $('#red').text("You have already this type")
-                        $('#green').text("");
+            let price = $('#price').val();
+            let arr = price.split('.');
+            console.log(arr);
+            if (arr.length !== 2) {
+                console.log("tuka ima greshka");
+                iseverything = false;
+                $('#invalidprice').text("Please enter price in format {2.50}")
+            }
+            else if (arr[1].length !== 2) {
+                iseverything = false;
+                $('#invalidprice').text("Please provide 2 symbols for the cents.")
+            }
+            if (iseverything) {
+
+                console.log(input);
+                $.ajax({
+                    url: 'CreateType',
+                    type: 'Post',
+                    data:
+                    {
+                        name: input,
+                        price: price
+
+                    },
+                    success: function (response) {
+                        if (response === "faketype") {
+                            $('#red').text("You have already this type")
+                            $('#green').text("");
+                        }
+                        else {
+                            $('#green').text("Device type created successfully")
+                            $('#red').text("");
+                        }
                     }
-                    else {
-                        $('#green').text("Device type created successfully")
-                        $('#red').text("");
-                    }
-                }
-            })
+                })
+            }
         }
     </script>
 }

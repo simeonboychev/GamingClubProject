@@ -22,12 +22,14 @@ namespace GamingProject.Services.Services
             _mapper = mapper;
         }
 
-        public async Task CreateTypeAsync(string name)
+        public async Task CreateTypeAsync(string name,double price)
         {
             var devicetype = new DeviceType
             {
                 Id = Guid.NewGuid().ToString(),
-                Type = name
+                Type = name,
+                Price = price
+                
             };
             await _context.DeviceTypes.AddAsync(devicetype);
             await _context.SaveChangesAsync();
