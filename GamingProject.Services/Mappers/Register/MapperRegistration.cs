@@ -13,10 +13,10 @@ namespace GamingProject.Services.Mappers.Register
     {
         public static IServiceCollection AddCustomDTOMappers(this IServiceCollection services)
         {
-            //services.AddScoped<IDTOServiceMapper<Cocktail, AddCocktailDTO>, AddCocktailDTOMapper>();
             services.AddScoped<IDTOServiceMapper<User, UserDTO>, UserEntityMapper>();
             services.AddScoped<IDTOServiceMapper<Device, DeviceDTO>, DeviceEntityMapper>();
             services.AddScoped<IDTOServiceMapper<Session, SessionDTO>, SessionEntityMapper>();
+            services.AddScoped<IDTOServiceMapper<Session, DisplaySessionDTO>, DisplaySessionEntityMapper>();
             services.AddScoped<IDTOServiceMapper<DeviceType, DeviceTypeDTO>, DeviceTypeEntityMapper>();
             
             return services;

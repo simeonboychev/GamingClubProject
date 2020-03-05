@@ -19,6 +19,7 @@ namespace GamingProject.Utilities.Mappers.Registration
             services.AddTransient<IViewModelMapper<DeviceDTO, CreateDeviceViewModel>, DeviceViewModelMapper>();
             services.AddTransient<IViewModelMapper<SessionDTO, CreateSessionViewModel>, CreateSessionViewModelMapper>();
             services.AddTransient<IViewModelMapper<DeviceTypeDTO, CreateDeviceTypeViewModel>, DeviceTypeViewModelMapper>();
+            services.AddTransient<IViewModelMapper<DisplaySessionDTO, DisplayHistoryViewModel>, DisplayHistoryViewModelMapper>();
 
 
             return services;
