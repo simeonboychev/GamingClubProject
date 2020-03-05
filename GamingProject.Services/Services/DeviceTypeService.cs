@@ -35,6 +35,13 @@ namespace GamingProject.Services.Services
             await _context.SaveChangesAsync();
         }
 
+        public async Task EditAsync(string type, double price)
+        {
+            var devicetype = await  _context.DeviceTypes.FirstAsync(x => x.Type == type);
+            devicetype.Price = price;
+            await _context.SaveChangesAsync();
+        }
+
         public async Task<ICollection<DeviceTypeDTO>> GetAllAsync()
         {
             var devices = await _context.DeviceTypes.ToListAsync();

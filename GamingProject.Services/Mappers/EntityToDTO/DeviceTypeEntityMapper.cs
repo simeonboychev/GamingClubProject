@@ -17,7 +17,8 @@ namespace GamingProject.Services.Mappers.EntityToDTO
             return new DeviceTypeDTO
             {
                 Id = entity.Id,
-                Type = entity.Type
+                Type = entity.Type,
+                Price = entity.Price
             };
         }
 

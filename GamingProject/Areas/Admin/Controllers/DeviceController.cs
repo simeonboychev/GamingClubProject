@@ -70,5 +70,19 @@ namespace GamingProject.Areas.Admin.Controllers
             await _deviceTypeService.CreateTypeAsync(name,Double.Parse(price));
             return new JsonResult("");
         }
+        public async Task<IActionResult> Edit()
+        {
+            var devices = await _deviceTypeService.GetAllAsync();
+            var vm = new AllDeviceTypesViewModel
+            {
+                Devices = devices
+            };
+            return View(vm);
+        }
+        public async Task EditDevice(string type,string price)
+        {
+            var price1 = Double.Parse(price);
+            await _deviceTypeService.EditAsync(type, price1);
+        }
     }
 }

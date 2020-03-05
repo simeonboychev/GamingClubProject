@@ -11,5 +11,6 @@ namespace GamingProject.Services.Services.Contracts
         Task CreateTypeAsync(string name, double price);
         Task<bool> IsThereType(string name);
         Task<ICollection<DeviceTypeDTO>> GetAllAsync();
+        Task EditAsync(string type, double price);
     }
 }

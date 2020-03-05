@@ -1,0 +1,47 @@
+﻿@model GamingProject.Areas.Admin.Models.AllDeviceTypesViewModel
+
+
+<h1>Edit</h1>
+<br />
+<h1 id="test3" style="color:green"></h1>
+<p>Device Type</p>
+<select onchange="test(this.value)" id="deviceT" name="deviceTypes">
+    <option>////////</option>
+    @foreach (var item in Model.Devices)
+    {
+        <option value="@item.Price+@item.Type">@item.Type</option>
+    }
+</select>
+
+<div id="posthere"></div>
+<br />
+<br />
+<button type="button" onclick="test1()" class="btn btn-primary">Edit Device</button>
+<script>
+    let currType;
+    function test(value) {
+        let arr = value.split('+');
+        console.log(arr);
+        let price = arr[0];
+        let type = arr[1];
+        currType = type;
+        let div = document.getElementById('posthere');
+        div.innerHTML = `<div id="posthere"> <br /> <p>Device Amount Per Hour </p> <input id="test1" /> </div>`;
+        let input = document.getElementById('test1');
+        input.value = price;
+    }
+    function test1() {
+        let newPrice = document.getElementById("test1").value
+        console.log(newPrice);
+        $.ajax({
+            url: 'EditDevice',
+            data: {
+                type: currType,
+                price: newPrice
+            },
+            success: function () {
+                $('#test3').text("Successfully edited the device");
+            }
+        })
+    }
+</script>
