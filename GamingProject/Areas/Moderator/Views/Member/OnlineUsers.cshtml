@@ -55,10 +55,11 @@
 
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" value="@item.Id" data-dismiss="modal">Cancel</button>
-                                    <button type="button" class="btn btn-secondary" id="@item.Id+@item.CurrentPlaying"  onclick="EndSession(this.id)">End Session</button>
+                                    <button type="button" class="btn btn-secondary" id="@item.Id+@item.CurrentPlaying" onclick="EndSession(this.id)">End Session</button>
                                 </div>
                             </div>
                         </div>
+                    </div>
                 </td>
             </tr>
         }
@@ -111,14 +112,14 @@
                     time: value
                 },
                 success: function () {
-                    
+
                     $(`.${id1}`).modal('hide');
                     $('.modal-backdrop').hide();
                     $(`#${id1}`).remove();
                 }
             })
         }
-            
+
         function ModalTest(id) {
             $(`.${id}`).modal('show');
         }

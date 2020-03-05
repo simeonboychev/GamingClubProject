@@ -1,0 +1,34 @@
+﻿@model ICollection<DisplayHistoryViewModel>
+
+@{
+    Layout = null;
+    ViewData["Title"] = "DisplaySessions";
+}
+
+
+<div id="insertHere">
+    <table id="myTable" class="display1" style="width:100%; text-align:center;">
+        <thead>
+            <tr>
+                <th>Full Name</th>
+                <th>Device Name</th>
+                <th>Sesion Start</th>
+                <th>Session Duration</th>
+                <th>Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.UserName</td>
+                    <td>@item.DeviceName</td>
+                    <td>@item.StartTime</td>
+                    <td>@item.Duration</td>
+                    <td>@item.Price</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+

@@ -4,6 +4,8 @@
 }
 
 <link rel="stylesheet" type="text/css" href="~/css/sessionhistory.css" />
+<link rel="stylesheet" type="text/css" href="~/css/table.css" />
+
 
 <style>
     html, body {
@@ -11,22 +13,27 @@
     }
 </style>
 
+<div id="insertHere">
 
-<div class="col-md-3">
-    <h1>SessionHistory</h1>
+    <div class="container">
+        <h1>SessionHistory</h1>
 
-    <input type="text" id="input-inline" />
-    <button onclick="GetSessions()">Get Sessions</button>
-    <br><br>
-    <div id="pick-inline"></div>
+        <input type="text" id="input-inline" />
+        <button onclick="GetSessions()">Get Sessions</button>
+        <br><br>
+        <div id="pick-inline"></div>
+    </div>
+
 </div>
-<div class="col-md-9">
 
-</div>
-
-
+@*<script>
+        $(document).ready(function () {
+            $('#myTable').DataTable();
+        });
+    </script>*@
 
 @section scripts{
+    <script src="~/js/Table.js"></script>
     <script src="~/js/sessionhistory.js"></script>
     <script>
         window.addEventListener("load", function () {
@@ -39,14 +46,14 @@
             let date = document.getElementById('input-inline').value;
             console.log(date);
             $.ajax({
-                url: "SessionHistory",
-                type: "post",
+                url: "DisplaySessions",
+                type: "GET",
                 data: {
-                    date:date
+                    date: date
                 },
                 success: function (response) {
-                    console.log("success");
-                    console.log(response);
+                    document.getElementById("insertHere").innerHTML = response;
+                     $('#myTable').DataTable();
                 }
             })
         }

@@ -3,6 +3,7 @@ using GamingProject.Services.DTOs;
 using GamingProject.Services.Mappers.Contract;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace GamingProject.Services.Mappers.EntityToDTO
@@ -23,7 +24,7 @@ namespace GamingProject.Services.Mappers.EntityToDTO
 
         public ICollection<DisplaySessionDTO> MapFrom(ICollection<Session> entities)
         {
-            throw new NotImplementedException();
+            return entities.Select(this.MapFrom).ToList();
         }
     }
 }

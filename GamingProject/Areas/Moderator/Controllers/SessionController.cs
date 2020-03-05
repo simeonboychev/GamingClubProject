@@ -19,14 +19,17 @@ namespace GamingProject.Areas.Moderator.Controllers
         private readonly IDeviceService _deviceService;
         private readonly ISessionService _sessionService;
         private readonly IViewModelMapper<SessionDTO, CreateSessionViewModel> _createSessionViewModelMapper;
+        private readonly IViewModelMapper<DisplaySessionDTO, DisplayHistoryViewModel> _displaySessionMapper;
 
         public SessionController(IDeviceService deviceService,
                                  ISessionService sessionService,
-                                 IViewModelMapper<SessionDTO, CreateSessionViewModel> createSessionViewModelMapper)
+                                 IViewModelMapper<SessionDTO, CreateSessionViewModel> createSessionViewModelMapper,
+                                 IViewModelMapper<DisplaySessionDTO, DisplayHistoryViewModel> displaySessionMapper)
         {
             _deviceService = deviceService;
             _sessionService = sessionService;
             _createSessionViewModelMapper = createSessionViewModelMapper;
+            _displaySessionMapper = displaySessionMapper;
         }
         public IActionResult Index()
         {
@@ -58,12 +61,13 @@ namespace GamingProject.Areas.Moderator.Controllers
         {
             return View();
         }
-        [HttpPost]
-        public async Task<IActionResult> Sessionhistory(string date)
+        [HttpGet]
+        public async Task<IActionResult> DisplaySessions(string date)
         {
             var dtos = await _sessionService.GetSessionHistoryAsync(date);
+            var vms = _displaySessionMapper.MapFrom(dtos);
 
-            return Ok(dtos);
+            return View(vms);
         }
     }
 }
